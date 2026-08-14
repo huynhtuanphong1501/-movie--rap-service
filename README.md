@@ -1,98 +1,537 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Movie Cinema Service 🎬🏢
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Rap Service là Microservice chịu trách nhiệm quản lý thông tin rạp chiếu phim trong hệ thống đặt vé xem phim.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Service xử lý:
 
-## Description
+- Hệ thống rạp
+- Cụm rạp
+- Lịch chiếu
+- Thông tin rạp theo hệ thống
+- Lịch chiếu theo phim
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Rap Service giao tiếp với Gateway thông qua RabbitMQ.
 
-## Project setup
+---
 
-```bash
-$ npm install
+# Architecture
+
+```
+                         Client
+                           |
+                           |
+                           v
+
+                    +-------------+
+                    |   Gateway   |
+                    |   NestJS    |
+                    +-------------+
+
+                           |
+                           |
+                      RabbitMQ
+
+                           |
+                           v
+
+                    +-------------+
+                    | Rap Service |
+                    |   NestJS    |
+                    +-------------+
+
+                           |
+                           v
+
+                    MySQL Database
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+# Technology Stack
 
-# watch mode
-$ npm run start:dev
+## Backend
 
-# production mode
-$ npm run start:prod
-```
+- Node.js
+- NestJS
+- TypeScript
 
-## Run tests
+## Database
 
-```bash
-# unit tests
-$ npm run test
+- Prisma ORM
+- MySQL
 
-# e2e tests
-$ npm run test:e2e
+## Communication
 
-# test coverage
-$ npm run test:cov
-```
+- RabbitMQ
+
+## Documentation
+
+- Swagger
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- Docker
+- Docker Compose
+- GitHub Actions
+- Docker Hub
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+---
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Project Structure
+
+```
+rap-service
+
+├── src
+
+│
+├── module-api
+│
+│   └── quan-ly-rap
+│       │
+│       ├── quan-ly-rap.controller.ts
+│       ├── quan-ly-rap.service.ts
+│       └── quan-ly-rap.module.ts
+│
+│
+├── module-system
+│
+├── prisma
+│
+├── Dockerfile
+├── package.json
+└── README.md
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+# API Documentation
 
-Check out a few resources that may come in handy when working with NestJS:
+Swagger:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```
+http://localhost:3069/api-docs
+```
 
-## Support
+Swagger hỗ trợ:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- API Testing
+- Query Parameters
+- Response Preview
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# Cinema APIs
 
-## License
+## 1. Lấy thông tin hệ thống rạp
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+API:
+
+```
+GET
+
+/api/QuanLyRap/LayThongTinHeThongRap
+```
+
+Mục đích:
+
+Lấy danh sách hệ thống rạp.
+
+Ví dụ:
+
+```
+/LayThongTinHeThongRap
+```
+
+Hoặc lọc theo hệ thống:
+
+```
+/LayThongTinHeThongRap?heThongRap=CGV
+```
+
+Query:
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| heThongRap | string | false | Hệ thống rạp |
+
+Ví dụ:
+
+```
+CGV
+
+BHDStar
+
+Galaxy
+```
+
+---
+
+Response example:
+
+```json
+[
+    {
+        "maHeThongRap": "CGV",
+        "tenHeThongRap": "CGV Cinema",
+        "logo": "logo_url"
+    }
+]
+```
+
+---
+
+# 2. Lấy thông tin cụm rạp theo hệ thống
+
+
+API:
+
+```
+GET
+
+/api/QuanLyRap/LayThongTinCumRapTheoHeThong
+```
+
+
+Query:
+
+```
+heThongRap
+```
+
+
+Example:
+
+```
+/LayThongTinCumRapTheoHeThong?heThongRap=CGV
+```
+
+
+Parameter:
+
+| Parameter | Type | Required |
+|-|-|-|
+| heThongRap | string | true |
+
+
+Response:
+
+```json
+[
+    {
+        "maCumRap": "cgv-bt",
+        "tenCumRap": "CGV Bình Thạnh",
+        "diaChi": "TP Hồ Chí Minh"
+    }
+]
+```
+
+---
+
+# 3. Lấy lịch chiếu theo hệ thống rạp
+
+
+API:
+
+```
+GET
+
+/api/QuanLyRap/LayThongTinLichChieuHeThongRap
+```
+
+
+Query:
+
+```
+heThongRap
+```
+
+
+Example:
+
+```
+/LayThongTinLichChieuHeThongRap?heThongRap=CGV
+```
+
+
+Parameter:
+
+| Parameter | Type | Required |
+|-|-|-|
+| heThongRap | string | false |
+
+
+Response:
+
+```json
+[
+    {
+        "maPhim":1,
+        "tenPhim":"Avengers",
+        "lichChieu":[
+            {
+                "ngayChieu":"2026-08-20",
+                "gioChieu":"19:00"
+            }
+        ]
+    }
+]
+```
+
+---
+
+# 4. Lấy lịch chiếu theo phim
+
+
+API:
+
+```
+GET
+
+/api/QuanLyRap/LayThongTinLichChieuPhim
+```
+
+
+Query:
+
+```
+maPhim
+```
+
+
+Example:
+
+```
+/LayThongTinLichChieuPhim?maPhim=1
+```
+
+
+Parameter:
+
+| Parameter | Type | Required |
+|-|-|-|
+| maPhim | number | true |
+
+
+Response:
+
+```json
+{
+    "maPhim":1,
+    "tenPhim":"Avengers",
+    "heThongRap":[
+        {
+            "tenHeThongRap":"CGV",
+            "cumRap":[
+                {
+                    "tenCumRap":"CGV Vincom",
+                    "lichChieu":[
+                        {
+                            "gioChieu":"20:00"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+---
+
+# Communication With Gateway
+
+Flow:
+
+```
+Client
+
+ |
+
+HTTP Request
+
+ |
+
+Gateway
+
+ |
+
+RabbitMQ
+
+ |
+
+Rap Service
+
+ |
+
+Database
+```
+
+Gateway gửi message tới Rap Service thông qua RabbitMQ.
+
+---
+
+# Environment Variables
+
+Tạo file:
+
+```
+.env
+```
+
+
+Example:
+
+```env
+PORT=3073
+
+
+DATABASE_URL=mysql://root:password@database:3306/db_movie
+
+
+RABBITMQ_URL=amqp://user:password@rabbitmq:5672
+
+
+NODE_ENV=production
+```
+
+---
+
+# Installation
+
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+---
+
+# Run Application
+
+
+Development:
+
+```bash
+npm run start:dev
+```
+
+
+Build:
+
+```bash
+npm run build
+```
+
+
+Production:
+
+```bash
+npm run start:prod
+```
+
+---
+
+# Docker
+
+
+Build image:
+
+```bash
+docker build \
+-t phonghuynh1501/img-rap-service:latest .
+```
+
+
+Push:
+
+```bash
+docker push phonghuynh1501/img-rap-service:latest
+```
+
+
+Run:
+
+```bash
+docker compose up -d
+```
+
+---
+
+# CI/CD Flow
+
+```
+Developer
+
+    |
+
+git push main
+
+    |
+
+GitHub Actions CI
+
+    |
+
+Docker Build
+
+    |
+
+Docker Hub
+
+    |
+
+GitHub Actions CD
+
+    |
+
+EC2 Runner
+
+    |
+
+Docker Compose Deploy
+```
+
+---
+
+# Related Services
+
+
+## Gateway
+
+Repository:
+
+https://github.com/huynhtuanphong1501/-movie--gateway
+
+
+## User Service
+
+Repository:
+
+https://github.com/huynhtuanphong1501/-movie--user-service
+
+
+## Phim Service
+
+Repository:
+
+https://github.com/huynhtuanphong1501/-movie--phim-service
+
+
+## Dat Ve Service
+
+Repository:
+
+https://github.com/huynhtuanphong1501/-movie--dat-ve-service
+
+
+---
+
+# Author
+
+**Huynh Tuan Phong**
+
+Movie Management System
+
+Microservices Architecture
